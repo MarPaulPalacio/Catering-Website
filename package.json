@@ -1,0 +1,26 @@
+{
+  "name": "catering-website",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Made to publicize Papag at Bilao Catering Industry and cater to large groups of people",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarPaulPalacio/Catering-Website.git"
+  },
+  "author": "Mar Paul Palacio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MarPaulPalacio/Catering-Website/issues"
+  },
+  "homepage": "https://github.com/MarPaulPalacio/Catering-Website#readme",
+  "dependencies": {
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9",
+    "snake-case": "^3.0.4"
+  }
+}

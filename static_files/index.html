@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <t class = "flexbox2" id = "mainBox">
+        <h4 class="flexbox">
+            <b id="sample">
+                <li id="game" >Menu:</li>
+                <ol>Ordered list</ol>
+                <ol>Takoyakis</ol>
+            </b>
+        </h4>
+    </t>
+
+    <h4 class="flexbox" id="mainlist">
+        <b id="sample">
+            <li id="game" >Menu:</li>
+            <ol id="firstFood">Maki</ol>
+            <ol id="secondFood">Takoyakis</ol>
+        </b>
+    </h4>
+    <h4 class="flexbox" id="mainlist2">
+        <b id="foodbox">
+            <form>
+                <label for="food1">Food Item 1:</label>
+                <input type="text" id="food1" name="food1" placeholder="Enter first food item" required>
+                <br><br>
+                <label for="food2">Food Item 2:</label>
+                <input type="text" id="food2" name="food2" placeholder="Enter second food item" required>
+                <br><br>
+                <button onclick="add(event)">Submit</button>
+            </form>
+        </b>
+    </h4>
+    <script src="http://localhost:3001/index.js"></script> 
+</body>
+</html>
