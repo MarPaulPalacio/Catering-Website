@@ -1,10 +1,10 @@
-import logo from './logo.svg';
+
 import './App.css';
-import SubjectList from './SubjectList'
-import Header from './header/Header'
+import Footer from './header/Footer'
 import Filters from './projects/Filters'
 import Projects from './projects/Projects'
 import {FilterProvider} from "./providers/FilterContext";
+import {FileProvider} from "./providers/FileContext"
 import React, { useState } from "react";
 
   
@@ -14,15 +14,18 @@ function App() {
   return (
     <>
       
-      <div className="overflow-y-auto max-h-screen">
-        <div className='sticky top-0 z-0'>
-          <Header/>
-        </div>
-        <FilterProvider>
-          <Filters/>
-          <Projects/>
-        </FilterProvider>
+      <div className="overflow-y-auto h-screen">
+        <FileProvider>
+
         
+          <div className='z-20'>
+          <FilterProvider>
+            <Filters/>
+            <Projects/>
+          </FilterProvider>
+          </div>
+            <Footer/>
+        </FileProvider>
       </div>
       
 

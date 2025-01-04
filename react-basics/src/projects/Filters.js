@@ -4,12 +4,6 @@ import FilterContext from "../providers/FilterContext";
 function Filters() {
 
     // For Date
-    
-    const [selectedDate, setSelectedDate] = useState('');
-
-    const handleChangeDate = (event) => {
-        setSelectedDate(event.target.value);
-    };
 
     const { filter, setFilter } = useContext(FilterContext);
 
@@ -41,6 +35,9 @@ function Filters() {
     const { resetProjectName, setResetProjectName } = useContext(FilterContext);
     const { resetOfficeName, setResetOfficeName } = useContext(FilterContext);
 
+    const {resetDateDelivered, setResetDateDelivered} = useContext(FilterContext); // Default to "All"
+    const {resetDateOrdered, setResetDateOrdered} = useContext(FilterContext); // Default to "All"
+
     useEffect(() => {
         if (resetCompanyType === 'inactive'){
             setFilter('Select')
@@ -60,8 +57,22 @@ function Filters() {
             setResetProjectName('')
         }
 
+        if (resetDateDelivered === 'inactive'){
+            console.log("SHDJDFSJ")
+            setDateDeliveredFinal('')
+            setDateDeliveredInitial('')
+            setResetDateDelivered('')
+        }
+        if (resetDateOrdered === 'inactive'){
+            setDateOrderedFinal('')
+            setDateOrderedInitial('')
+            setResetDateOrdered('')
+        }
 
-    }, [resetCompanyType, resetCompanyName, resetOfficeName, resetProjectName]);
+
+
+
+    }, [resetDateOrdered, resetDateDelivered, resetCompanyType, resetCompanyName, resetOfficeName, resetProjectName]);
     return (
         <>
             {/* Filter Options */}
@@ -126,11 +137,11 @@ function Filters() {
                         
                     </div>
                 </div>
-                <div className='flex w-11/12 justify-center items-center align-middle pt-8 mr-2 ml-2'>
 
-
-                    <form className="w-72 mr-[15%]">   
-                        <label for="default-search" className="mb-2 text-sm font-medium text-darkest sr-only dark:text-white">Search</label>
+                {/* Search Boxes Are placed Here */}
+                <div className='flex flex-wrap w-full justify-center items-center align-middle pt-3'>
+                    <div className=" flex flex-row align-middle justify-center items-center w-100 space-x-3 mr-[5%] mt-3">   
+                        <label for="default-search" className="text-lg">Project Name:</label>
                         <div className="relative">
                             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                 <svg className="w-4 h-4 text-gray-500 dark:text-darkest" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -140,9 +151,9 @@ function Filters() {
                             <input value={searchProject} onChange={(e) => setSearchProject(e.target.value)} type="search" id="default-search" className="block w-full h-4 p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg- focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-darkest dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Project" required />
                             {/* <button type="submit" class="text-darkest absolute end-2.5 bottom-0.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button> */}
                         </div>
-                    </form>
-                    <div className="w-72 mr-[15%]">   
-                        <label for="default-search" class="mb-2 text-sm font-medium text-darkest sr-only dark:text-white">Search</label>
+                    </div>
+                    <div className="w-100 flex flex-row align-middle justify-center items-center space-x-3 mr-[5%] mt-3">   
+                        <label for="default-search" className="text-lg">Company Name:</label>
                         <div className="relative">
                             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                 <svg className="w-4 h-4 text-gray-500 dark:text-darkest" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -153,8 +164,8 @@ function Filters() {
                             {/* <button type="submit" class="text-darkest absolute end-2.5 bottom-0.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button> */}
                         </div>
                     </div>
-                    <form className="w-72">   
-                        <label for="default-search" className="mb-2 text-sm font-medium text-darkest sr-only dark:text-white">Search</label>
+                    <div className="w-100 flex flex-row space-x-3 align-middle justify-center items-center mr-[5%] mt-3">   
+                    <label for="default-search" className="text-lg">Office Name:</label>
                         <div className="relative">
                             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                 <svg className="w-4 h-4 text-gray-500 dark:text-darkest" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -164,14 +175,14 @@ function Filters() {
                             <input value={searchOffice} onChange={(e) => setSearchOffice(e.target.value)} type="search" id="default-search" className="block w-full h-4 p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg- focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-darkest dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Office" required />
                             {/* <button type="submit" class="text-darkest absolute end-2.5 bottom-0.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button> */}
                         </div>
-                    </form>
+                    </div>
 
                 </div>
             </div>)}
 
-            {/* Filter Button */}
+            {/* Filter Toggle Button */}
             <div className="flex items-center justify-center w-full">
-                <div className='flex w-24 h-8 items-center justify-center bg-darkest text-white rounded-b-lg'>
+                <div className='flex w-32 h-10 items-center justify-center bg-darkest text-white rounded-b-3xl'>
                     <button id="filterButton" className="" onClick={toggleFilterVisibility}>Close Filter</button>
                 </div>
             </div>

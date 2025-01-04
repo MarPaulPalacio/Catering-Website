@@ -1,5 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import FilterContext from "../providers/FilterContext";
+import FileContext from "../providers/FileContext";
+import writeFunction from "./SaveFunction"
 
 
 function DatabaseTable() {
@@ -38,6 +40,8 @@ function DatabaseTable() {
     const { resetCompanyName, setResetCompanyName } = useContext(FilterContext);
     const { resetOfficeName, setResetOfficeName } = useContext(FilterContext);
     const { resetProjectName, setResetProjectName } = useContext(FilterContext);
+    const {resetDateDelivered, setResetDateDelivered} = useContext(FilterContext); // Default to "All"
+    const {resetDateOrdered, setResetDateOrdered} = useContext(FilterContext); // Default to "All"
 
     const { filter } = useContext(FilterContext); // Get the filter value
     const { searchProject } = useContext(FilterContext); // Get the searchProject value
@@ -49,10 +53,18 @@ function DatabaseTable() {
     const { dateDeliveredFinal } = useContext(FilterContext);
     const [filteredData,     setFilteredData] = useState(initialData); // State for filtered data
     const [sortConfig, setSortConfig] = useState({ key: null, direction: "ascending" });
+
+    const { saveFile, setSaveFile } = useContext(FileContext);
     
     
     useEffect(() => {
         let sortedData = data
+
+        if (saveFile === "Saved"){
+            // console.log("Function Entered Here")
+            writeFunction(data)
+            setSaveFile("Not Saved")
+        }
         if (filter === "Select" || !filter) {
             const openMain = document.getElementById('comType')
 
@@ -122,11 +134,15 @@ function DatabaseTable() {
             sortedData = [...sortedData].filter((item) => {
                 
                 const itemDate = item.dateOrdered.toISOString().split('T')[0]; // Replace "date" with your date field name
-                console.log(itemDate)
-                console.log(dateOrderedInitial)
                 return itemDate == dateOrderedInitial;
             });
             setFilteredData(sortedData);
+
+            const openDiv = document.getElementById('dateOrderedNotifDiv')
+            const openMain = document.getElementById('dateOrderedNotif')
+            openDiv.classList.remove('hidden')
+            openMain.innerText = 'DO : ' + dateOrderedInitial
+
         } else if (dateOrderedInitial && dateOrderedFinal) {
             sortedData = [...sortedData].filter((item) => {
                 
@@ -135,17 +151,33 @@ function DatabaseTable() {
                 return itemDate >= dateOrderedInitial && itemDate <= dateOrderedFinal;
             });
             setFilteredData(sortedData);
+
+            const openDiv = document.getElementById('dateOrderedNotifDiv')
+            const openMain = document.getElementById('dateOrderedNotif')
+            openDiv.classList.remove('hidden')
+            openMain.innerText = 'DO : ' + dateOrderedInitial + " --> " + dateOrderedFinal
+
+        } else {
+            const openDiv = document.getElementById('dateOrderedNotifDiv')
+            const openMain = document.getElementById('dateOrderedNotif')
+            openDiv.className +=' hidden'
+            setFilteredData(sortedData);
         }
 
+        
         if (dateDeliveredInitial && !dateDeliveredFinal) {
             sortedData = [...sortedData].filter((item) => {
                 
                 const itemDate = item.dateDelivered.toISOString().split('T')[0]; // Replace "date" with your date field name
-                console.log(itemDate)
-                console.log(dateDeliveredInitial)
                 return itemDate == dateDeliveredInitial;
             });
             setFilteredData(sortedData);
+
+            const openDiv = document.getElementById('dateDeliveredNotifDiv')
+            const openMain = document.getElementById('dateDeliveredNotif')
+            openDiv.classList.remove('hidden')
+            openMain.innerText = 'DO : ' + dateDeliveredInitial
+
         } else if (dateDeliveredInitial && dateDeliveredFinal) {
             sortedData = [...sortedData].filter((item) => {
                 
@@ -154,9 +186,20 @@ function DatabaseTable() {
                 return itemDate >= dateDeliveredInitial && itemDate <= dateDeliveredFinal;
             });
             setFilteredData(sortedData);
+
+            const openDiv = document.getElementById('dateDeliveredNotifDiv')
+            const openMain = document.getElementById('dateDeliveredNotif')
+            openDiv.classList.remove('hidden')
+            openMain.innerText = 'DO : ' + dateDeliveredInitial + " --> " + dateDeliveredFinal
+
+        } else {
+            const openDiv = document.getElementById('dateDeliveredNotifDiv')
+            const openMain = document.getElementById('dateDeliveredNotif')
+            openDiv.className +=' hidden'
+            setFilteredData(sortedData);
         }
 
-    }, [filter, data, searchProject, searchCompany, searchOffice, dateOrderedInitial, dateOrderedFinal, dateDeliveredInitial, dateDeliveredFinal]);    
+    }, [ saveFile, filter, data, searchProject, searchCompany, searchOffice, dateOrderedInitial, dateOrderedFinal, dateDeliveredInitial, dateDeliveredFinal]);    
 
     const [selectedOption, setSelectedOption] = useState(null);
 
@@ -167,20 +210,15 @@ function DatabaseTable() {
 
             officeEntry.classList.remove('hidden')
             officeValue.classList.remove('hidden')
-            console.log(officeEntry.className)
         } else  if (e.target.value =="private"){
 
             officeEntry.className+=' hidden'
             officeValue.className +=' hidden'
-
-            console.log(officeEntry.className)
         }
         setSelectedOption(e.target.value); // Update the selected value
-        console.log('Selected option:', e.target.value); // Event listener output
     };
 
     const sortData = (key) => {
-        console.log(key)
         let sortedData = [...data];
         let direction = "ascending";
 
@@ -249,7 +287,6 @@ function DatabaseTable() {
             companyType = 'Private'
         }
         
-        console.log(addDateOrdered)
         if (
             !companyType || // Ensure radio button is selected
             !addCompanyName.value.trim() || 
@@ -313,30 +350,62 @@ function DatabaseTable() {
         setResetOfficeName('inactive')
     }
 
+    const dateOrderedNotifFilter = () => {
+        const closeMain = document.getElementById('dateOrderedNotif')
+        const closeDiv = document.getElementById('dateOrderedNotifDiv')
+        // console.log(closeMain)
+        closeMain.innerText = 'DO: '    
+        closeDiv.className +=(' hidden')
+        setFilteredData(data);
+        setResetDateOrdered('inactive')
+    }
+
+    const dateDeliveredNotifFilter = () => {
+        const closeMain = document.getElementById('dateDeliveredNotif')
+        const closeDiv = document.getElementById('dateDeliveredNotifDiv')
+        closeMain.innerText = ' '
+        closeDiv.className +=(' hidden')
+        setFilteredData(data);
+        setResetDateDelivered('inactive')
+    }
+
+    const saveData = () => {
+        writeFunction(initialData)
+    }
     return (
     <>
-        <div className="p-4 h-full flex flex-col">
+        <div className="p-4 overflow-y-auto flex flex-col max-h-[920px]">
             <div className='flex flex-row align-middle items-center w-full mb-5 space-x-5'>
                 <h1 className="text-2xl font-bold mb-4">Projects</h1>
                 <div className='flex flex-row space-x-5 overflow-x-auto w-8/12 '>
-                    <div id='comTypeDiv' className='flex flex-row hidden rounded-lg bg-lightest h-7 mb-4 w-80 min-w-40 items-center justify-between align-middle'>
-                        <label id='comType' className='text-sm mx-auto'></label>
+                    <div id='comTypeDiv' className='flex flex-row hidden shadow-custom-shadow rounded-lg bg-white h-11 mb-4 w-80 min-w-40 items-center justify-between align-middle'>
+                        <label id='comType' className='text-md mx-auto text-darkest'></label>
                         <button id='comTypeButton' className='text-xl mr-5 text-dark' value ='active' onClick={companyTypeNotifFilter}>x</button>
                     </div>
 
-                    <div id='projectNotifDiv' className='flex flex-row hidden rounded-lg bg-lightest h-7 mb-4 w-80 min-w-40 items-center justify-between align-middle'>
-                        <label id='projectNotif' className='text-sm mx-auto space-x-5 auto'>PN : </label>
+                    <div id='projectNotifDiv' className='flex flex-row hidden shadow-custom-shadow rounded-lg bg-white h-11 mb-4 w-80 min-w-40 items-center justify-between align-middle'>
+                        <label id='projectNotif' className='text-md mx-auto space-x-5 auto text-darkest'>PN : </label>
                         <button id='projectNotifExit' className='text-xl mr-5 text-dark' value ='active' onClick={projectNotifFilter}>x</button>
                     </div>
 
-                    <div id='companyNotifDiv' className='flex flex-row hidden rounded-lg bg-lightest h-7 mb-4 w-80 min-w-40 items-center justify-between align-middle'>
-                        <label id='companyNotif' className='text-sm mx-auto space-x-5'>CN : </label>
+                    <div id='companyNotifDiv' className='flex flex-row hidden shadow-custom-shadow rounded-lg bg-white h-11 mb-4 w-80 min-w-40 items-center justify-between align-middle'>
+                        <label id='companyNotif' className='text-md mx-auto space-x-5 text-darkest'>CN : </label>
                         <button id='companyNotifExit' className='text-xl mr-5 text-dark' value ='active' onClick={companyNameNotifFilter}>x</button>
                     </div>
 
-                    <div id='officeNotifDiv' className='flex flex-row hidden rounded-lg bg-lightest h-7 mb-4 w-80 min-w-40 items-center justify-between align-middle'>
-                        <label id='officeNotif' className='text-sm mx-auto space-x-5'>CN : </label>
+                    <div id='officeNotifDiv' className='flex flex-row hidden shadow-custom-shadow rounded-lg bg-white h-11 mb-4 w-80 min-w-40 items-center justify-between align-middle'>
+                        <label id='officeNotif' className='text-md mx-auto space-x-5 text-darkest'>CN : </label>
                         <button id='officeNotifExit' className='text-xl mr-5 text-dark' value ='active' onClick={officeNotifFilter}>x</button>
+                    </div>
+
+                    <div id='dateOrderedNotifDiv' className='flex flex-row hidden shadow-custom-shadow rounded-lg bg-white h-11 mb-4 w-80 min-w-40 items-center justify-between align-middle'>
+                        <label id='dateOrderedNotif' className='text-md mx-auto space-x-5 text-darkest'>DO : </label>
+                        <button id='dateOrderedNotifExit' className='text-xl mr-5 text-dark' value ='active' onClick={dateOrderedNotifFilter}>x</button>
+                    </div>
+
+                    <div id='dateDeliveredNotifDiv' className='flex flex-row hidden shadow-custom-shadow rounded-lg bg-white h-11 mb-4 w-80 min-w-40 items-center justify-between align-middle'>
+                        <label id='dateDeliveredNotif' className='text-md mx-auto space-x-5 text-darkest'>DD : </label>
+                        <button id='dateDeliveredExit' className='text-xl mr-5 text-dark' value ='active' onClick={dateDeliveredNotifFilter}>x</button>
                     </div>
 
                 </div>
@@ -347,9 +416,9 @@ function DatabaseTable() {
                 </div>
             </div>
             
-            <div className="overflow-y-auto flex-shrink rounded-lg max-h-[600px]">
+            <div className="overflow-x-auto rounded-lg border border-darkest">
                 <table className="table-auto border-collapse border border-dark w-full">
-                    <thead className="sticky top-0 bg-gray-200 bg-darkest text-lightest">
+                    <thead className="sticky top-0 bg-gray-200 bg-darkest text-lightest mt-20">
                         <tr className="">
                             <th className="border border-dark px-4 py-2 hidden"><button className="w-full h-full hover:underline">Edit</button></th>
                             <th className="border border-dark px-4 py-2"><button className="w-full h-full hover:underline" onClick={() => sortData("PN")}>PN</button></th>
@@ -384,33 +453,36 @@ function DatabaseTable() {
                     </tbody>
                 </table>
             </div>
+            <div className="box h-40 w-full"></div>
 
         </div>
-
         {isPopupVisible && ( // Render popup only if `isPopupVisible` is true
         <div
-          className="fixed inset-0 bg-[#000000] bg-opacity-70 flex justify-center items-center "
+          className="fixed inset-0 bg-[#000000] bg-opacity-70 flex justify-center items-center z-50"
           onClick={togglePopup} // Hide popup if clicked outside
 
         >
-            <div className="overflow-y-auto bg-white p-5 rounded shadow-lg w-[50%] h-[90%] shadow-custom-shadow border flex flex-col border-darkest z-90 align-middle justify-center" onClick={(e) => e.stopPropagation()}>
-                    <div className='flex flex-row w-[100%] h-10 align-middle justify-center items-center bg-darkest mb-4'>
+            <div className="overflow-y-auto bg-white p-5 rounded-2xl shadow-lg sm:w-[50%] sm:h-[90%] shadow-custom-shadow border flex flex-col border-darkest align-middle justify-center w-full h-full" onClick={(e) => e.stopPropagation()}>
+                    <div className='flex flex-row w-[100%] h-10 align-middle justify-center items-center bg-darkest mb-10'>
                         <h1 className=" text-2xl font-bold text-lightest">Add Project</h1><br/><br/>
                         
                     </div>
                     
-                    <form id="color">
+                    <form id="color" className ='flex-grow flex flex-col justify-between'>
 
                         <p className="text-xl font-bold mb-4">Company Type</p>
-                        <label>
+                        <div>
+                        <label className='text-xl'>
                             <input type="radio" name="company" value="government" id='governmentRadio' onChange={handleRadioChange} defaultChecked/> Government
                         </label>
                         <br/>
-                        <label>
+                        <label className='text-xl'>
                             <input type="radio" name="company" value="private" id='privateRadio' onChange={handleRadioChange}/> Private
                         </label>
+                        </div>
+                        
                         <br/>
-                        <br/>
+                       
                         <p className="text-xl font-bold mb-4">Company Name</p>
 
                         <label for="default-search" className="mb-2 text-sm font-medium text-darkest sr-only dark:text-white">Search</label>
@@ -471,7 +543,7 @@ function DatabaseTable() {
                         <br/>
                         <div className='flex flex-wrap flex-row justify-center align-middle'>
                             <div className='flex flex-row mt-4 md:w-[50%] lg:w-[50%] sm:w-6/12 items-center justify-center align-middle'>
-                                    <label className="hidden md:block">Date Ordered:</label>
+                                    <label className="block pr-5">Date Ordered:</label>
                                         <input
                                             type="date"
                                             id='addDateOrdered' 
@@ -480,8 +552,8 @@ function DatabaseTable() {
                                             required
                                         /> 
                             </div>
-                            <div className='bg-lightest flex flex-row mt-4 md:w-auto items-center justify-center align-middle'>
-                                    <label  className="hidden md:block">Date Delivered:</label>
+                            <div className=' flex flex-row mt-4 md:w-auto items-center justify-center align-middle'>
+                                    <label  className="block pr-5">Date Delivered:</label>
                                         <input
                                             type="date"
                                             id='addDateDelivered'

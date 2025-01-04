@@ -1,4 +1,4 @@
-const { contextBridge } = require('electron');
+import { contextBridge } from 'electron';
 
 contextBridge.exposeInMainWorld('electron', {
   // Example: Add APIs here if needed
