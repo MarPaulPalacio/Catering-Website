@@ -2,6 +2,7 @@
   "name": "react-basics",
   "version": "0.1.0",
   "private": true,
+  "main": "public/electron.js",
   "dependencies": {
     "cra-template": "1.2.0",
     "react": "^19.0.0",
@@ -13,7 +14,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron-dev": "concurrently \"npm:start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-pack": "react-scripts build && electron-builder"
   },
   "eslintConfig": {
     "extends": [
@@ -34,6 +37,10 @@
     ]
   },
   "devDependencies": {
-    "tailwindcss": "^3.4.17"
+    "concurrently": "^9.1.2",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "tailwindcss": "^3.4.17",
+    "wait-on": "^8.0.1"
   }
 }

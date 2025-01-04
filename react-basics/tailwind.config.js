@@ -8,7 +8,10 @@ module.exports = {
       'general-light':'#d1b834',
       'dark' : '#6d8517',
       'darkest': '#3f5b0b',
-      'white': '#ffffff'
+      'white': '#f5f5f5',
+    },
+    boxShadow: {
+      'custom-shadow': '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
     },
     extend: {},
   },
