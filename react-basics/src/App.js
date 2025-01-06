@@ -10,7 +10,7 @@ import { PopupProvider } from "./providers/PopupProvider";
 function App() {
 
   return (
-    <div className="overflow-y-auto h-screen">
+    <div className="overflow-y-auto h-screen ">
       <FileProvider>
         <FilterProvider>
           <PopupProvider>

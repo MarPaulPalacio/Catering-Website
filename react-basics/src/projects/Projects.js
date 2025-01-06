@@ -279,6 +279,17 @@ function DatabaseTable() {
     };
 
     const toggleEdit = () => {
+        const changeValueEditButton = document.getElementById("editIdButton")
+
+        console.log(changeValueEditButton)
+
+        if (isEditVisible){
+            changeValueEditButton.innerHTML = "Edit"
+        } else {
+            changeValueEditButton.innerHTML = "Go Back"
+        }
+        
+
         setEditVisible(!isEditVisible);
         // setEditId(id)
     };
@@ -404,10 +415,10 @@ function DatabaseTable() {
                 </div>
                 
                 <div className='flex flex-row align-middle items-center justify-end w-[23%]'>
-                    <button onClick={togglePopupAdd} id="addIdButtonBig" className='hidden lg:block h-10 w-40 rounded-lg text-darkest mr-10 shadow-custom-shadow border border-darkest hover:bg-darkest hover:text-white'>Add New Project</button>
-                    <button onClick={togglePopupAdd} id="addIdButtonSmall" className='block lg:hidden h-10 w-40 rounded-lg text-darkest mr-10 shadow-custom-shadow border border-darkest hover:bg-darkest hover:text-white'>Add</button>
+                    <button onClick={togglePopupAdd} id="addIdButtonBig" className='hidden lg:block h-12 w-40 rounded-lg text-darkest mr-10 shadow-custom-shadow border border-darkest hover:bg-darkest hover:text-white'>Add New Project</button>
+                    <button onClick={togglePopupAdd} id="addIdButtonSmall" className='block lg:hidden h-12 w-40 rounded-lg text-darkest mr-10 shadow-custom-shadow border border-darkest hover:bg-darkest hover:text-white'>Add</button>
 
-                    <button onClick={toggleEdit} id="editIdButton"className='h-10 w-40 rounded-lg text-darkest mr-10 shadow-custom-shadow border border-darkest hover:bg-darkest hover:text-white'>Edit</button>
+                    <button onClick={toggleEdit} id="editIdButton"className='h-12 w-40 rounded-lg text-darkest mr-10 shadow-custom-shadow border border-darkest hover:bg-darkest hover:text-white'>Edit</button>
                 </div>
             </div>
 
