@@ -1,15 +1,15 @@
 import { createContext, useState } from "react";
 
-const ResetFilterContext = createContext();
+const ResetFileContext = createContext();
 
 export const FileProvider = ({ children }) => {
-    const [saveFile, setSaveFile] = useState("Not Saved"); // Default to "All"
-
+    const [saveFile, setSaveFile] = useState("Not Saved"); 
+    const [openFile, setOpenFile] = useState("");
     return (
-        <ResetFilterContext.Provider value={{saveFile, setSaveFile}}>
+        <ResetFileContext.Provider value={{saveFile, setSaveFile, openFile, setOpenFile}}>
             {children}
-        </ResetFilterContext.Provider>
+        </ResetFileContext.Provider>
     );
 };
 
-export default ResetFilterContext;
+export default ResetFileContext;
