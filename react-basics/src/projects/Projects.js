@@ -258,7 +258,7 @@ function DatabaseTable() {
         } 
 
         if (searchProject){
-            sortedData = [...sortedData].filter(item => item.projectName.toLowerCase().includes(searchProject.toLowerCase()))
+            sortedData = [...sortedData].filter(item => item.projectName && item.projectName.toLowerCase().includes(searchProject.toLowerCase()))
             setFilteredData(sortedData);
             const openDiv = document.getElementById('projectNotifDiv')
             const openMain = document.getElementById('projectNotif')
@@ -273,7 +273,7 @@ function DatabaseTable() {
         }
 
         if (searchCompany){
-            sortedData = [...sortedData].filter(item => item.companyName.toLowerCase().includes(searchCompany.toLowerCase()));
+            sortedData = [...sortedData].filter(item => item.companyName && item.companyName.toLowerCase().includes(searchCompany.toLowerCase()));
             setFilteredData(sortedData);
             const openDiv = document.getElementById('companyNotifDiv')
             const openMain = document.getElementById('companyNotif')
@@ -289,7 +289,7 @@ function DatabaseTable() {
         }
 
         if (searchOffice){
-            sortedData = [...sortedData].filter(item => item.officeName.toLowerCase().includes(searchOffice.toLowerCase()));
+            sortedData = [...sortedData].filter(item => item.officeName && item.officeName.toLowerCase().includes(searchOffice.toLowerCase()));
             setFilteredData(sortedData);
             const openDiv = document.getElementById('officeNotifDiv')
             const openMain = document.getElementById('officeNotif')
