@@ -4,16 +4,17 @@
   "private": true,
   "main": "public/electron.js",
   "dependencies": {
+    "axios": "^1.7.9",
     "browserify-fs": "^1.0.0",
     "cra-template": "1.2.0",
     "exceljs": "^4.4.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-scripts": "5.0.1",
+    "sqlite3": "^5.1.7",
     "web-vitals": "^4.2.4",
     "webpack": "^5.97.1"
-  },  
-  
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -52,9 +53,6 @@
     "webpack-dev-server": "^5.2.0",
     "webpack-node-externals": "^3.0.0"
   },
-
-
-
   "build": {
     "appId": "com.myapp.id",
     "productName": "MyElectronApp",
@@ -62,12 +60,12 @@
       "output": "dist"
     },
     "files": [
-    "build/**/*",  
-    "public/electron.js",
-    "public/preload.js"
+      "build/**/*",
+      "public/electron.js",
+      "public/preload.js"
     ],
     "win": {
-      "icon": "public/icon.ico" 
+      "icon": "public/icon.ico"
     },
     "mac": {
       "icon": "public/icon.icns"

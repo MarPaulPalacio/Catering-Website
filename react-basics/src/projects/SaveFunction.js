@@ -4,19 +4,21 @@ const writeFunction = (data) => {
     const workbook = new ExcelJS.Workbook();
     const sheet = workbook.addWorksheet('Sheet 1');
 
-    const headers = ["PN", "Company Type", "Company Name", "Office Name", "Project Name", "Cost", "Date Ordered", "Date Delivered"];
+    const headers = ["Project Name", "Agency", "Department", "Mode of Procurement", "Date Requested", "Date Requested Num", "Request Cost", "Date Delivered", "Date Delivered Num", "Delivered Cost"];
 
     sheet.addRow(headers);
     data.map((item) => {
         sheet.addRow([
-            item.PN,
-            item.companyType,
+            item.projectName,
             item.companyName,
             item.officeName,
-            item.projectName,
-            item.cost,
+            item.modeOfProcurement,
             item.dateOrdered.toLocaleDateString(),
+            item.dateOrderedNum,
+            item.cost,
             item.dateDelivered.toLocaleDateString(),
+            item.dateDeliveredNum,
+            item.pdCost,
         ]);
     });
 

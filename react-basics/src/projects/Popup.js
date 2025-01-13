@@ -2,7 +2,7 @@ import React, {useEffect, useContext, useState} from 'react';
 import FileContext from "../providers/FileContext";
 import PopupContext from '../providers/PopupProvider';
 import ExcelJS from "exceljs"
-
+import axios from "axios"
 function Popup({datas, initialDatas, setType, id, objectEntry}) {
 
     const initialData = initialDatas;
@@ -19,34 +19,48 @@ function Popup({datas, initialDatas, setType, id, objectEntry}) {
 
     useEffect(() => {
         if (finalData){
-            setInitialDataOutside(finalData)
-            setDataOutside(finalData)
+            // setInitialDataOutside(finalData)
+            // setDataOutside(finalData)
             setFinalData("")
+            setIsPopupVisibleOutside("False")
+            setTogglePopupOutside("False")
+            setResetData("True")
         }
     });
 
 
     const togglePopup = (event) => {
-        event.preventDefault();
+        // event.preventDefault();
         setTogglePopupOutside("False")
         console.log("SDFSDDFSDSFDF")
         setResetData("True")
     };
 
     const deleteEntry = (event) =>{
-        event.preventDefault();
-        const updatedData = initialData.filter(item => item.PN !== id);
-        setFinalData(updatedData);
-        setInitialDataOutside(updatedData)
-        setDataOutside(updatedData)
-        setFinalData(updatedData)
+        // event.preventDefault();
+        // const updatedData = initialData.filter(item => item.PN !== id);
+        setFinalData("Meron");
+        console.log(id)
+        const deleteProject = (projectId) => {
+            axios.delete(`http://localhost:3001/projects/${projectId}`)
+              .then(response => {
+                console.log('Project deleted:', response.data.message);
+                // You can handle further actions after deleting, like reloading data
+              })
+              .catch(error => {
+                console.error('Error deleting project:', error.response ? error.response.data.error : error.message);
+              });
+        };
+        deleteProject(id)
         setIsPopupVisibleOutside("False")
         setResetData("True")
+        setTogglePopupOutside("False")
+        window.location.reload();
 
     }
 
     const submitEntry = (event) =>{
-        event.preventDefault();
+        // event.preventDefault();
         
         const governmentRadio = document.getElementById('governmentRadio')
         const privateRadio = document.getElementById('privateRadio')
@@ -64,61 +78,87 @@ function Popup({datas, initialDatas, setType, id, objectEntry}) {
     
         
 
-        class projectEntry {
-            constructor(PN, companyName, officeName, projectName, cost, dateOrdered, dateDelivered, fixedaddPdCost, addModeOfProcurement, addRequestNumber, addDeliveredNumber) {
-                this.PN = PN;
-                this.companyName = companyName;
-                this.officeName = officeName;
-                this.projectName = projectName;
-                this.cost = cost;
-                this.dateDelivered = dateDelivered;
-                this.dateOrdered = dateOrdered;
-                this.pdCost = fixedaddPdCost;
-                this.dateDeliveredNum = addDeliveredNumber;
-                this.dateOrderedNum = addRequestNumber;
-                this.modeOfProcurement = addModeOfProcurement
 
+        async function addProject(newProject) {
+            try {
+                const response = await axios.post('http://localhost:3001/projects', newProject);
+                console.log('Project added successfully:', response.data);
+            } catch (error) {
+                console.error('Error adding project:', error);
             }
-        } 
+        }
 
-
+        let dateOrderedNullOrNot = "";
+        let dateDeliveredNullOrNot = "";
+        if (addDateOrdered.value === ""){
+            // console.log("I WON")
+            dateOrderedNullOrNot = "";
+            
+        } else {
+            dateOrderedNullOrNot = new Date(addDateOrdered.value);
+            
+        }
+        
+        if (addDateDelivered.value===""){
+            // console.log("I WON")
+            dateDeliveredNullOrNot = "";
+            
+        } else {
+            dateDeliveredNullOrNot = new Date(addDateDelivered.value);
+            
+        }
         if (setType==="Add"){
-            const newProjectEntry = new projectEntry(
-            initialData.length + 1,
-            addCompanyName.value, addOfficeName.value, 
-            addProjectName.value, fixedaddCost.value, 
-            new Date(addDateOrdered.value), new Date(addDateDelivered.value),
-            fixedaddPdCost.value, addModeOfProcurement.value, addRequestNumber.value, addDeliveredNumber.value)
-            // console.log(new Date(addDateOrdered.value))
-            setFinalData([...initialData, newProjectEntry]); // Use spread operator to add the object
+            console.log(addDateOrdered.value)
+            
+            // console.log(dateDeliveredNullOrNot)
+            const newProject = {
+                projectName: addProjectName.value,
+                companyName: addCompanyName.value,
+                officeName: addOfficeName.value,
+                modeOfProcurement: addModeOfProcurement.value,
+                dateOrdered: dateOrderedNullOrNot,
+                dateOrderedNum: addRequestNumber.value,
+                cost: fixedaddCost.value,
+                dateDelivered: dateDeliveredNullOrNot,
+                dateDeliveredNum: addDeliveredNumber.value,
+                pdCost: fixedaddPdCost.value,
+            };
+            addProject(newProject)
+            setFinalData("Meron"); // Use spread operator to add the object
             setIsPopupVisibleOutside("False");
+            window.location.reload();
         } else if (setType==="Edit") {
-
+            const updateProject = async (id, projectData) => {
+                try {
+                  const response = await axios.put(`http://localhost:3001/projects/${id}`, projectData);
+                  console.log('Project updated:', response.data);
+                } catch (error) {
+                  console.error('Error updating project:', error.response?.data || error.message);
+                }
+            };
 
             const modifyItem = (id) => {
-                const updateEntry = initialData.map(item => 
-                    item.PN === id ? {
-                        ...item, 
+                
+                const updateEntry = {
                         companyName: addCompanyName.value, 
                         officeName: addOfficeName.value, 
                         projectName: addProjectName.value, 
                         cost: fixedaddCost.value, 
-                        dateOrdered: new Date(addDateOrdered.value), 
-                        dateDelivered: new Date(addDateDelivered.value),
+                        dateOrdered: dateOrderedNullOrNot, 
+                        dateDelivered: dateDeliveredNullOrNot,
                         pdCost: fixedaddPdCost.value,
                         dateDeliveredNum: addDeliveredNumber.value,
                         dateOrderedNum: addRequestNumber.value,
                         modeOfProcurement:addModeOfProcurement.value
-                        } : item
-                );
-                setFinalData(updateEntry)
+                };
+                updateProject(id, updateEntry)
+                setFinalData("Meron")
                 setIsPopupVisibleOutside("False");
             }
-            
             modifyItem(id)
             setResetData("True")
-            // setFinalData([...initialData, newProjectEntry]); // Use spread operator to add the object
-            
+            setIsPopupVisibleOutside("False");
+            window.location.reload();
         }
         
     };
@@ -126,21 +166,6 @@ function Popup({datas, initialDatas, setType, id, objectEntry}) {
     const costEntryLimiter = () => {
         let costLimiter = document.getElementById('addCost');
         costLimiter.value = costLimiter.value.replace(/[^0-9]/g, '');
-    };
-
-    const handleRadioChange = (e) => {
-        const officeValue = document.getElementById('officeHeader')
-        const officeEntry = document.getElementById('officeEntry')
-        if (e.target.value =="government"){
-
-            officeEntry.classList.remove('hidden')
-            officeValue.classList.remove('hidden')
-        } else  if (e.target.value =="private"){
-
-            officeEntry.className+=' hidden'
-            officeValue.className +=' hidden'
-        }
-        setSelectedOption(e.target.value); // Update the selected value
     };
 
     return (

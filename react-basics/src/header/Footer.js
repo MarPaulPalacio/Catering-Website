@@ -1,6 +1,7 @@
 import React, {useEffect, useContext, useState} from 'react';
 import FileContext from "../providers/FileContext";
 import ExcelJS from "exceljs"
+import axios from "axios"
 
 function FooterMain() {
 
@@ -46,40 +47,86 @@ function FooterMain() {
     }
     return []
   };
+  const deleteAllProject = () => {
+    return axios.delete(`http://localhost:3001/projects`)
+      .then(response => {
+        console.log('All projects deleted:', response.data.message);
+        // You can handle further actions after deleting, like reloading data or adding projects
+      })
+      .catch(error => {
+        console.error('Error deleting project:', error.response ? error.response.data.error : error.message);
+      });
+  };
+  const addAllProjects = async (projects) => {
+    try {
+      const response = await axios.post('http://localhost:3001/projects/all', projects);
+      console.log('Response:', response.data);
+      console.log(projects)
+    } catch (error) {
+      console.error('Error adding projects:', error.response ? error.response.data.error : error.message);
+    }
+  };
 
   const handleFileOpen = async (selectedFile) => {
     const reader = new FileReader();
-  
+    const rows = [];
+    let copyRows = [];
     return new Promise((resolve, reject) => {
       reader.onload = async (e) => {
         const buffer = e.target.result;
         const workbook = new ExcelJS.Workbook();
-  
+        
         try {
           // Load the file
           await workbook.xlsx.load(buffer);
   
           // Assume the first sheet is the one we want
           const sheet = workbook.getWorksheet(1);
-          const rows = [];
+          
   
           // Iterate through rows and extract values
+          let num=1;
           sheet.eachRow((row, rowIndex) => {
+            // console.log("FOUND ITs")
+            
             if (rowIndex > 1) { // Skip header row
+              const dateDeliveredNullOrNot = isNaN(new Date(row.getCell(9).value)) ? "null": new Date(row.getCell(9).value);
+              const dateOrderedNullOrNot = isNaN(new Date(row.getCell(6).value)) ? "null": new Date(row.getCell(6).value);
               const rowData = {
-                PN: row.getCell(1).value,
-                companyType: row.getCell(2).value,
+                PN: num,
+                projectName: row.getCell(2).value,
                 companyName: row.getCell(3).value,
                 officeName: row.getCell(4).value,
-                projectName: row.getCell(5).value,
-                cost: parseFloat(row.getCell(6).value),
-                dateOrdered: new Date(row.getCell(7).value),
-                dateDelivered: new Date(row.getCell(8).value),
+                modeOfProcurement: row.getCell(5).value,
+                
+                dateOrdered: dateOrderedNullOrNot,
+                // dateOrdered: new Date(row.getCell(6).value),
+                dateOrderedNum: row.getCell(7).value,
+                cost: parseFloat(row.getCell(8).value),
+
+                dateDelivered: dateDeliveredNullOrNot,
+                // dateDelivered: new Date(row.getCell(9).value),
+                dateDeliveredNum: row.getCell(10).value,
+                pdCost: parseFloat(row.getCell(11).value),
               };
+              num+=1
+              // console.log(rowData)
               rows.push(rowData);
             }
           });
-  
+          num = 0;
+          
+          copyRows = [...rows]
+          console.log("Rows below")
+          console.log(copyRows)
+          deleteAllProject()
+          .then(() => {
+            // Once deleteAllProject is done, proceed with adding the new projects
+            addAllProjects(copyRows);
+          })
+          .catch((error) => {
+            console.error("Error occurred:", error);
+          });
           resolve(rows); // Resolve the promise with the extracted data
         } catch (error) {
           reject(error); // Reject the promise if any error occurs
@@ -88,6 +135,9 @@ function FooterMain() {
   
       reader.onerror = (error) => reject(error);
       reader.readAsArrayBuffer(selectedFile);
+      
+      // console.log(copyRows)
+      
     });
   };
 

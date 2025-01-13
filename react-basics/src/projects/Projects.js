@@ -4,119 +4,173 @@ import FileContext from "../providers/FileContext";
 import PopupContext from '../providers/PopupProvider';
 import writeFunction from "./SaveFunction"
 import Popup from "./Popup"
+import axios from 'axios';
+
+// const { addProject, updateProject, deleteProject, getAllProjects } = require('../data/database');
+
+
 
 function DatabaseTable() {
 
+    // const [initialData, setInitialData] = useState([
+    //     {
+    //       PN: 1,
+    //       projectName: "Birthday Expo",
+    //       companyName: "Sample Name1",
+    //       officeName: "Office",
+    //       modeOfProcurement: "",
+    //       dateOrdered: new Date("2016-08-25"),
+    //       dateOrderedNum: 1472083200000,
+    //       cost: 203000,
+    //       dateDelivered: new Date("2016-09-25"),
+    //       dateDeliveredNum: 1474761600000,
+    //       pdCost: 210000,
+    //     },
+    //     {
+    //       PN: 2,
+    //       projectName: "18th Birthday120",
+    //       companyName: "Sample Names",
+    //       officeName: "Office",
+    //       modeOfProcurement: "",
+    //       dateOrdered: new Date("2016-08-26"),
+    //       dateOrderedNum: 1472169600000,
+    //       cost: 50000,
+    //       dateDelivered: new Date("2016-09-26"),
+    //       dateDeliveredNum: 1474848000000,
+    //       pdCost: 52000,
+    //     },
+    //     {
+    //       PN: 3,
+    //       projectName: "Anniversary",
+    //       companyName: "Sample Name2",
+    //       officeName: "Office",
+    //       modeOfProcurement: "",
+    //       dateOrdered: new Date("2016-08-27"),
+    //       dateOrderedNum: 1472256000000,
+    //       cost: 100011,
+    //       dateDelivered: new Date("2016-09-27"),
+    //       dateDeliveredNum: 1474934400000,
+    //       pdCost: 102000,
+    //     },
+    //     {
+    //       PN: 4,
+    //       projectName: "Birthday Expo",
+    //       companyName: "Sample Name3",
+    //       officeName: "Office",
+    //       modeOfProcurement: "",
+    //       dateOrdered: new Date("2016-08-28"),
+    //       dateOrderedNum: 1472342400000,
+    //       cost: 203000,
+    //       dateDelivered: new Date("2016-09-28"),
+    //       dateDeliveredNum: 1475020800000,
+    //       pdCost: 215000,
+    //     },
+    //     {
+    //       PN: 5,
+    //       projectName: "18th Birthdays",
+    //       companyName: "Sample Name4",
+    //       officeName: "Office",
+    //       modeOfProcurement: "",
+    //       dateOrdered: new Date("2016-08-29"),
+    //       dateOrderedNum: 1472428800000,
+    //       cost: 50000,
+    //       dateDelivered: new Date("2016-09-29"),
+    //       dateDeliveredNum: 1475107200000,
+    //       pdCost: 51000,
+    //     },
+    //     {
+    //       PN: 6,
+    //       projectName: "Anniversary",
+    //       companyName: "Sample Namef",
+    //       officeName: "Office",
+    //       modeOfProcurement: "",
+    //       dateOrdered: new Date("2016-08-30"),
+    //       dateOrderedNum: 1472515200000,
+    //       cost: 100011,
+    //       dateDelivered: new Date("2016-09-30"),
+    //       dateDeliveredNum: 1475193600000,
+    //       pdCost: 101500,
+    //     },
+    //     {
+    //       PN: 7,
+    //       projectName: "Birthday Expo",
+    //       companyName: "Sample Names",
+    //       officeName: "Office",
+    //       modeOfProcurement: "",
+    //       dateOrdered: new Date("2016-08-31"),
+    //       dateOrderedNum: 1472601600000,
+    //       cost: 203000,
+    //       dateDelivered: new Date("2016-10-01"),
+    //       dateDeliveredNum: 1475280000000,
+    //       pdCost: 214000,
+    //     },
+    //     {
+    //       PN: 8,
+    //       projectName: "18th Birthday",
+    //       companyName: "Sample Namej",
+    //       officeName: "Office",
+    //       modeOfProcurement: "",
+    //       dateOrdered: new Date("2016-09-01"),
+    //       dateOrderedNum: 1472688000000,
+    //       cost: 50000,
+    //       dateDelivered: new Date("2016-10-02"),
+    //       dateDeliveredNum: 1475366400000,
+    //       pdCost: 50500,
+    //     },
+    //   ]);
     const [initialData, setInitialData] = useState([
-        {
-          PN: 1,
-          projectName: "Birthday Expo",
-          companyName: "Sample Name1",
-          officeName: "Office",
-          modeOfProcurement: "",
-          dateOrdered: new Date("2016-08-25"),
-          dateOrderedNum: 1472083200000,
-          cost: 203000,
-          dateDelivered: new Date("2016-09-25"),
-          dateDeliveredNum: 1474761600000,
-          pdCost: 210000,
-        },
-        {
-          PN: 2,
-          projectName: "18th Birthday120",
-          companyName: "Sample Names",
-          officeName: "Office",
-          modeOfProcurement: "",
-          dateOrdered: new Date("2016-08-26"),
-          dateOrderedNum: 1472169600000,
-          cost: 50000,
-          dateDelivered: new Date("2016-09-26"),
-          dateDeliveredNum: 1474848000000,
-          pdCost: 52000,
-        },
-        {
-          PN: 3,
-          projectName: "Anniversary",
-          companyName: "Sample Name2",
-          officeName: "Office",
-          modeOfProcurement: "",
-          dateOrdered: new Date("2016-08-27"),
-          dateOrderedNum: 1472256000000,
-          cost: 100011,
-          dateDelivered: new Date("2016-09-27"),
-          dateDeliveredNum: 1474934400000,
-          pdCost: 102000,
-        },
-        {
-          PN: 4,
-          projectName: "Birthday Expo",
-          companyName: "Sample Name3",
-          officeName: "Office",
-          modeOfProcurement: "",
-          dateOrdered: new Date("2016-08-28"),
-          dateOrderedNum: 1472342400000,
-          cost: 203000,
-          dateDelivered: new Date("2016-09-28"),
-          dateDeliveredNum: 1475020800000,
-          pdCost: 215000,
-        },
-        {
-          PN: 5,
-          projectName: "18th Birthdays",
-          companyName: "Sample Name4",
-          officeName: "Office",
-          modeOfProcurement: "",
-          dateOrdered: new Date("2016-08-29"),
-          dateOrderedNum: 1472428800000,
-          cost: 50000,
-          dateDelivered: new Date("2016-09-29"),
-          dateDeliveredNum: 1475107200000,
-          pdCost: 51000,
-        },
-        {
-          PN: 6,
-          projectName: "Anniversary",
-          companyName: "Sample Namef",
-          officeName: "Office",
-          modeOfProcurement: "",
-          dateOrdered: new Date("2016-08-30"),
-          dateOrderedNum: 1472515200000,
-          cost: 100011,
-          dateDelivered: new Date("2016-09-30"),
-          dateDeliveredNum: 1475193600000,
-          pdCost: 101500,
-        },
-        {
-          PN: 7,
-          projectName: "Birthday Expo",
-          companyName: "Sample Names",
-          officeName: "Office",
-          modeOfProcurement: "",
-          dateOrdered: new Date("2016-08-31"),
-          dateOrderedNum: 1472601600000,
-          cost: 203000,
-          dateDelivered: new Date("2016-10-01"),
-          dateDeliveredNum: 1475280000000,
-          pdCost: 214000,
-        },
-        {
-          PN: 8,
-          projectName: "18th Birthday",
-          companyName: "Sample Namej",
-          officeName: "Office",
-          modeOfProcurement: "",
-          dateOrdered: new Date("2016-09-01"),
-          dateOrderedNum: 1472688000000,
-          cost: 50000,
-          dateDelivered: new Date("2016-10-02"),
-          dateDeliveredNum: 1475366400000,
-          pdCost: 50500,
-        },
-      ]);
+    ]);
+    const [filteredData, setFilteredData] = useState([]); // State for filtered data
+    const [data, setData] = useState([]);
+    // setInitialData(getAllProjects())
+    // getAllProjects()
+
+    useEffect(() => {
+        // Fetch data on component mount
+        async function fetchData() {
+          const projects = await getAllProjects(); // Wait for data from the backend
+          setInitialData(projects); // Update the state with fetched projects
+        }
+    
+        fetchData(); // Call the fetchData function
+    }, []);
+
+    useEffect(() => {
+        // Whenever initialData is updated, set filteredData
+        setFilteredData(initialData);
+
+    }, [initialData]); // This effect runs every time initialData changes
+
+    useEffect(() => {
+        // Whenever initialData is updated, set filteredData
+        setData(initialData);
+
+    }, [initialData]); // This effect runs every time initialData changes
+
+    async function getAllProjects() {
+        try {
+            const response = await axios.get('http://localhost:3001/projects');
+            if (response.data && Array.isArray(response.data)) {
+                const newData =  response.data.map((item) => {
+                    return {
+                      ...item, // Spread existing properties
+                      dateOrdered: new Date(item.dateOrdered), // Format dateOrdered
+                      dateDelivered: new Date(item.dateDelivered), // Format dateDelivered
+                    };
+                  });
+                return newData; // Return an array of projects
+            } else {
+                return [];
+            }
+        } catch (error) {
+            console.error('Error fetching projects:', error);
+        }
+    }
+    
       
     // const [initialData, setInitialData] = useState([]);
   // Example data
-    const [data, setData] = useState(initialData);
+
 
     const { resetModeOfProcurement, setResetModeOfProcurement } = useContext(FilterContext);
     const { resetCompanyName, setResetCompanyName } = useContext(FilterContext);
@@ -133,7 +187,7 @@ function DatabaseTable() {
     const { dateOrderedFinal } = useContext(FilterContext);
     const { dateDeliveredInitial } = useContext(FilterContext);
     const { dateDeliveredFinal } = useContext(FilterContext);
-    const [filteredData,     setFilteredData] = useState(initialData); // State for filtered data
+    
     const [sortConfig, setSortConfig] = useState({ key: null, direction: "ascending" });
 
     const { saveFile, setSaveFile } = useContext(FileContext);
@@ -153,7 +207,6 @@ function DatabaseTable() {
         if (resetData === "True"){
             setResetData("False")
             setObjectEntry(" ")
-            console.log("SFSDasdffds")
         }
         if (togglePopupOutside ==="False"){
             setPopupVisible(!isPopupVisible);
@@ -167,6 +220,7 @@ function DatabaseTable() {
             setPopupVisible(!isPopupVisible)
         }
     },[resetData, togglePopupOutside, initialDataOutside]);
+
     
     useEffect(() => {
         let sortedData = data
@@ -178,7 +232,6 @@ function DatabaseTable() {
             setData(openFile)
             setFilteredData(openFile)
             // console.log("SDDSSD")
-            console.log(openFile)
             setOpenFile("")
         }
         if (saveFile === "Saved"){
@@ -253,6 +306,10 @@ function DatabaseTable() {
 
         if (dateOrderedInitial && !dateOrderedFinal) {
             sortedData = [...sortedData].filter((item) => {
+                if (isNaN(item.dateOrdered)) {
+                    
+                    return false; // Skip invalid date
+                }
                 
                 const itemDate = item.dateOrdered.toISOString().split('T')[0]; // Replace "date" with your date field name
                 return itemDate == dateOrderedInitial;
@@ -266,7 +323,9 @@ function DatabaseTable() {
 
         } else if (dateOrderedInitial && dateOrderedFinal) {
             sortedData = [...sortedData].filter((item) => {
-                
+                if (isNaN(item.dateOrdered)) {
+                    return false;   
+                }
                 const itemDate = item.dateOrdered.toISOString().split('T')[0]; // Replace "date" with your date field name
 
                 return itemDate >= dateOrderedInitial && itemDate <= dateOrderedFinal;
@@ -277,7 +336,6 @@ function DatabaseTable() {
             const openMain = document.getElementById('dateOrderedNotif')
             openDiv.classList.remove('hidden')
             openMain.innerText = 'DO : ' + dateOrderedInitial + " --> " + dateOrderedFinal
-
         } else {
             const openDiv = document.getElementById('dateOrderedNotifDiv')
             const openMain = document.getElementById('dateOrderedNotif')
@@ -288,7 +346,9 @@ function DatabaseTable() {
         
         if (dateDeliveredInitial && !dateDeliveredFinal) {
             sortedData = [...sortedData].filter((item) => {
-                
+                if (isNaN(item.dateDelivered)) {
+                    return false; 
+                }
                 const itemDate = item.dateDelivered.toISOString().split('T')[0]; // Replace "date" with your date field name
                 return itemDate == dateDeliveredInitial;
             });
@@ -301,7 +361,9 @@ function DatabaseTable() {
 
         } else if (dateDeliveredInitial && dateDeliveredFinal) {
             sortedData = [...sortedData].filter((item) => {
-                
+                if (isNaN(item.dateDelivered)) {
+                    return false; // Skip invalid date
+                }
                 const itemDate = item.dateDelivered.toISOString().split('T')[0]; // Replace "date" with your date field name
 
                 return itemDate >= dateDeliveredInitial && itemDate <= dateDeliveredFinal;
@@ -325,7 +387,6 @@ function DatabaseTable() {
     const sortData = (key) => {
         let sortedData = [...data];
         let direction = "ascending";
-
         // If already sorted by this key, toggle the direction
         if (sortConfig.key === key && sortConfig.direction === "ascending") {
             direction = "descending";
@@ -341,11 +402,13 @@ function DatabaseTable() {
             }
             if (a[key] < b[key]) return direction === "ascending" ? -1 : 1;
             if (a[key] > b[key]) return direction === "ascending" ? 1 : -1;
+
             return 0;
         });
 
         setSortConfig({ key, direction });
         setData(sortedData);
+        setFilteredData(sortedData)
     };
 
     
@@ -358,8 +421,6 @@ function DatabaseTable() {
 
     const toggleEdit = () => {
         const changeValueEditButton = document.getElementById("editIdButton")
-
-        console.log(changeValueEditButton)
 
         if (isEditVisible){
             changeValueEditButton.innerHTML = "Edit"
@@ -422,7 +483,6 @@ function DatabaseTable() {
     const dateOrderedNotifFilter = () => {
         const closeMain = document.getElementById('dateOrderedNotif')
         const closeDiv = document.getElementById('dateOrderedNotifDiv')
-        // console.log(closeMain)
         closeMain.innerText = 'DO: '    
         closeDiv.className +=(' hidden')
         setFilteredData(data);
@@ -454,6 +514,9 @@ function DatabaseTable() {
         }
     } 
     
+    // if (filteredData.length ===0){
+    //     return(<>Hello</>)
+    // }
     return (
     <>
         <div className="p-4 overflow-y-auto flex flex-col max-h-[920px]">
@@ -535,10 +598,10 @@ function DatabaseTable() {
                         </tr>
                         <tr>
                             <th className="border border-dark px-4 py-2">
-                            <button className="w-full h-full hover:underline" onClick={() => sortData("cost")}>Date</button>
+                            <button className="w-full h-full hover:underline" onClick={() => sortData("dateOrdered")}>Date</button>
                             </th>
                             <th className="border border-dark px-4 py-2">
-                            <button className="w-full h-full hover:underline" onClick={() => sortData("dateOrdered")}>Cost</button>
+                            <button className="w-full h-full hover:underline" onClick={() => sortData("cost")}>Cost</button>
                             </th>
                             <th className="border border-dark px-4 py-2">
                                 <button className="w-full h-full hover:underline" onClick={() => sortData("cost")}>PR#</button>
@@ -558,7 +621,13 @@ function DatabaseTable() {
                     </thead>
 
                     <tbody>
-                    {filteredData.map((item) => (
+                    {filteredData.length === 0 ? (
+                        <tr>
+                            <td colSpan="11" className="text-center">No data available</td>
+                        </tr>
+                    ) : (
+                    
+                    filteredData.map((item) => (
                         <tr key={item.PN} className="hover:bg-dark hover:text-white hover:shadow-custom-shadow">
                             
                             {isEditVisible &&
@@ -569,18 +638,20 @@ function DatabaseTable() {
                             <td className="border border-darkest px-4 py-2">{item.officeName}</td>
                             <td className="border border-darkest px-4 py-2">{item.modeOfProcurement}</td>
                             <td className="border border-darkest px-4 py-2">
-                                {item.dateOrdered.toLocaleDateString("en-US")}
+                                {isNaN(item.dateOrdered) ? ("None") :
+                                (item.dateOrdered.toLocaleDateString("en-US"))}
                             </td>
-                            <td className="border border-darkest px-4 py-2">₱{item.cost}</td>
+                            <td className="border border-darkest px-4 py-2">₱{isNaN(item.cost) ? (0) : (new Intl.NumberFormat('en-US').format(item.cost))}</td>
                             <td className="border border-darkest px-4 py-2">{item.dateOrderedNum}</td>
                             
                             <td className="border border-darkest px-4 py-2">
-                                {item.dateDelivered.toLocaleDateString("en-US")}
+                                {isNaN(item.dateDelivered) ? ("None") :
+                                (item.dateDelivered.toLocaleDateString("en-US"))}
                             </td>
-                            <td className="border border-darkest px-4 py-2">₱{item.pdCost}</td>
+                            <td className="border border-darkest px-4 py-2">₱{isNaN(item.pdCost) ? (0) : (new Intl.NumberFormat('en-US').format(item.pdCost))}</td>
                             <td className="border border-darkest px-4 py-2">{item.dateDeliveredNum}</td>
                         </tr>
-                    ))}
+                    )))}
                     </tbody>
                 </table>
             </div>
