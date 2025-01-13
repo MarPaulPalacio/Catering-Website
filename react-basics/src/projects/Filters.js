@@ -82,7 +82,7 @@ function Filters() {
                     <div className='flex flex-wrap flex-row w-full items-center justify-center'>
                         
                         {/* COmpany Private Or Public */}
-                        <div className='flex flex-row w-[450px] items-center justify-center space-x-3 mt-4'>
+                        {/* <div className='flex flex-row w-[450px] items-center justify-center space-x-3 mt-4'>
                             <label className="md:block">Company:</label>
                             <select name="language" id="type" className='h-8 lg:w-6/12 sm:w-8/12 md:w-6/12 rounded-lg bg-light text-center' value={filter} onChange={(e) => setFilter(e.target.value)}>
                                 <option value="Select" defaultChecked>Select</option>
@@ -90,13 +90,13 @@ function Filters() {
                                 <option value="Private">Private</option>
                             </select>
                             
-                        </div>
+                        </div> */}
                         {/* <p ref={outputRefCompany} id="output">Selected type: None</p> */}
 
                         {/* Date */}
                         <div className='flex flex-wrap flex-row items-center justify-center align-middle w-[1000px] mt-4' >
                             <div className='flex flex-row w-6/12 items-center justify-center align-middle space-x-3 ml-2'>
-                                <label className="hidden sm:block">Date Ordered:</label>
+                                <label className="hidden sm:block">Date Requested:</label>
                                     <input
                                         type="date"
                                         id="date"
@@ -141,7 +141,7 @@ function Filters() {
                 {/* Search Boxes Are placed Here */}
                 <div className='flex flex-wrap w-full justify-center items-center align-middle pt-3'>
                     <div className=" flex flex-row align-middle justify-center items-center w-100 space-x-3 mr-[5%] mt-3">   
-                        <label for="default-search" className="text-lg">Project Name:</label>
+                        <label for="default-search" className="text-lg">Project Title:</label>
                         <div className="relative">
                             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                 <svg className="w-4 h-4 text-gray-500 dark:text-darkest" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -153,7 +153,7 @@ function Filters() {
                         </div>
                     </div>
                     <div className="w-100 flex flex-row align-middle justify-center items-center space-x-3 mr-[5%] mt-3">   
-                        <label for="default-search" className="text-lg">Company Name:</label>
+                        <label for="default-search" className="text-lg">Agency Name:</label>
                         <div className="relative">
                             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                 <svg className="w-4 h-4 text-gray-500 dark:text-darkest" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -165,7 +165,7 @@ function Filters() {
                         </div>
                     </div>
                     <div className="w-100 flex flex-row space-x-3 align-middle justify-center items-center mr-[5%] mt-3">   
-                    <label for="default-search" className="text-lg">Office Name:</label>
+                    <label for="default-search" className="text-lg">Department Name:</label>
                         <div className="relative">
                             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                 <svg className="w-4 h-4 text-gray-500 dark:text-darkest" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">

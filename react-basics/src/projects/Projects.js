@@ -1,44 +1,124 @@
 import { useContext, useState, useEffect } from 'react';
 import FilterContext from "../providers/FilterContext";
 import FileContext from "../providers/FileContext";
-import {PopupProvider} from "../providers/PopupProvider"
 import PopupContext from '../providers/PopupProvider';
 import writeFunction from "./SaveFunction"
 import Popup from "./Popup"
 
 function DatabaseTable() {
 
-    // const [initialData, setInitialData] = useState([
-    //     { PN: 1, companyType: "Private", companyName:"Sample Name1", officeName: "Office", projectName: "Birthday Expo", cost: 203000, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 2, companyType: "Government", companyName:"Sample Names", officeName: "Office", projectName: "18th Birthday120", cost: 50000, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 3, companyType: "Private", companyName:"Sample Name2", officeName: "Office", projectName: "Anniversary", cost: 100011, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 4, companyType: "Private", companyName:"Sample Name3", officeName: "Office", projectName: "Birthday Expo", cost: 203000, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 5, companyType: "Government", companyName:"Sample Name4", officeName: "Office", projectName: "18th Birthdays", cost: 50000, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 6, companyType: "Private", companyName:"Sample Namef", officeName: "Office", projectName: "Anniversary", cost: 100011, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 7, companyType: "Private", companyName:"Sample Names", officeName: "Office", projectName: "Birthday Expo", cost: 203000, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 8, companyType: "Government", companyName:"Sample Namej", officeName: "Office", projectName: "18th Birthday", cost: 50000, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 9, companyType: "Private", companyName:"Sample Namel", officeName: "Office", projectName: "Anniversary", cost: 100011, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 10, companyType: "Private", companyName:"Sample Name", officeName: "Office", projectName: "Birthday Expo", cost: 203000, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 11, companyType: "Government", companyName:"Sample Name", officeName: "Office", projectName: "18th Birthday", cost: 50050, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2017-09-25")},
-    //     { PN: 12, companyType: "Private", companyName:"Sample Name", officeName: "Office", projectName: "Anniversary", cost: 100011, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 13, companyType: "Private", companyName:"Sample Name", officeName: "Office", projectName: "Birthday Expo", cost: 203000, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-26")},
-    //     { PN: 14, companyType: "Government", companyName:"Sample Name", officeName: "Office", projectName: "18th Birthday", cost: 50000, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 15, companyType: "Private", companyName:"Sample Name", officeName: "Office", projectName: "Anniversary", cost: 100011, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 16, companyType: "Private", companyName:"Sample Name", officeName: "Office", projectName: "Birthday Expo", cost: 203000, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 17, companyType: "Government", companyName:"Sample Name", officeName: "Office", projectName: "18th Birthday", cost: 50000, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 18, companyType: "Private", companyName:"Sample Name", officeName: "Office", projectName: "Anniversary", cost: 100011, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 19, companyType: "Private", companyName:"Sample Name", officeName: "Office", projectName: "Birthday Expo", cost: 203000, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2015-09-25")},
-    //     { PN: 20, companyType: "Government", companyName:"Sample Name", officeName: "Office", projectName: "18th Birthday", cost: 50000, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 21, companyType: "Private", companyName:"Sample Name", officeName: "Office", projectName: "Anniversary", cost: 100011, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 22, companyType: "Private", companyName:"Sample Name", officeName: "Office", projectName: "Birthday Expo", cost: 203000, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 23, companyType: "Government", companyName:"Sample Name", officeName: "Office", projectName: "18th Birthday", cost: 50000, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    //     { PN: 24, companyType: "Private", companyName:"Sample Name", officeName: "Office", projectName: "Anniversary", cost: 100011, dateOrdered:new Date("2016-08-25"), dateDelivered:new Date("2016-09-25")},
-    // ]);
-    const [initialData, setInitialData] = useState([]);
+    const [initialData, setInitialData] = useState([
+        {
+          PN: 1,
+          projectName: "Birthday Expo",
+          companyName: "Sample Name1",
+          officeName: "Office",
+          modeOfProcurement: "",
+          dateOrdered: new Date("2016-08-25"),
+          dateOrderedNum: 1472083200000,
+          cost: 203000,
+          dateDelivered: new Date("2016-09-25"),
+          dateDeliveredNum: 1474761600000,
+          pdCost: 210000,
+        },
+        {
+          PN: 2,
+          projectName: "18th Birthday120",
+          companyName: "Sample Names",
+          officeName: "Office",
+          modeOfProcurement: "",
+          dateOrdered: new Date("2016-08-26"),
+          dateOrderedNum: 1472169600000,
+          cost: 50000,
+          dateDelivered: new Date("2016-09-26"),
+          dateDeliveredNum: 1474848000000,
+          pdCost: 52000,
+        },
+        {
+          PN: 3,
+          projectName: "Anniversary",
+          companyName: "Sample Name2",
+          officeName: "Office",
+          modeOfProcurement: "",
+          dateOrdered: new Date("2016-08-27"),
+          dateOrderedNum: 1472256000000,
+          cost: 100011,
+          dateDelivered: new Date("2016-09-27"),
+          dateDeliveredNum: 1474934400000,
+          pdCost: 102000,
+        },
+        {
+          PN: 4,
+          projectName: "Birthday Expo",
+          companyName: "Sample Name3",
+          officeName: "Office",
+          modeOfProcurement: "",
+          dateOrdered: new Date("2016-08-28"),
+          dateOrderedNum: 1472342400000,
+          cost: 203000,
+          dateDelivered: new Date("2016-09-28"),
+          dateDeliveredNum: 1475020800000,
+          pdCost: 215000,
+        },
+        {
+          PN: 5,
+          projectName: "18th Birthdays",
+          companyName: "Sample Name4",
+          officeName: "Office",
+          modeOfProcurement: "",
+          dateOrdered: new Date("2016-08-29"),
+          dateOrderedNum: 1472428800000,
+          cost: 50000,
+          dateDelivered: new Date("2016-09-29"),
+          dateDeliveredNum: 1475107200000,
+          pdCost: 51000,
+        },
+        {
+          PN: 6,
+          projectName: "Anniversary",
+          companyName: "Sample Namef",
+          officeName: "Office",
+          modeOfProcurement: "",
+          dateOrdered: new Date("2016-08-30"),
+          dateOrderedNum: 1472515200000,
+          cost: 100011,
+          dateDelivered: new Date("2016-09-30"),
+          dateDeliveredNum: 1475193600000,
+          pdCost: 101500,
+        },
+        {
+          PN: 7,
+          projectName: "Birthday Expo",
+          companyName: "Sample Names",
+          officeName: "Office",
+          modeOfProcurement: "",
+          dateOrdered: new Date("2016-08-31"),
+          dateOrderedNum: 1472601600000,
+          cost: 203000,
+          dateDelivered: new Date("2016-10-01"),
+          dateDeliveredNum: 1475280000000,
+          pdCost: 214000,
+        },
+        {
+          PN: 8,
+          projectName: "18th Birthday",
+          companyName: "Sample Namej",
+          officeName: "Office",
+          modeOfProcurement: "",
+          dateOrdered: new Date("2016-09-01"),
+          dateOrderedNum: 1472688000000,
+          cost: 50000,
+          dateDelivered: new Date("2016-10-02"),
+          dateDeliveredNum: 1475366400000,
+          pdCost: 50500,
+        },
+      ]);
+      
+    // const [initialData, setInitialData] = useState([]);
   // Example data
     const [data, setData] = useState(initialData);
 
-    const { resetCompanyType, setResetCompanyType } = useContext(FilterContext);
+    const { resetModeOfProcurement, setResetModeOfProcurement } = useContext(FilterContext);
     const { resetCompanyName, setResetCompanyName } = useContext(FilterContext);
     const { resetOfficeName, setResetOfficeName } = useContext(FilterContext);
     const { resetProjectName, setResetProjectName } = useContext(FilterContext);
@@ -58,8 +138,6 @@ function DatabaseTable() {
 
     const { saveFile, setSaveFile } = useContext(FileContext);
     const { openFile, setOpenFile } = useContext(FileContext);
-    
-    const [file, setFile] = useState(null);
 
 
     const [isPopupVisible, setPopupVisible] = useState(false); // State to manage popup visibility
@@ -116,7 +194,7 @@ function DatabaseTable() {
             openMain.innerText = ' '
             openDiv.className +=(' hidden')
         } else if (filter === "Government" || filter === "Private") {
-            sortedData = [...sortedData].filter(item => item.companyType === filter)
+            sortedData = [...sortedData].filter(item => item.modeOfProcurement === filter)
             setFilteredData(sortedData);
 
             const openDiv = document.getElementById('comTypeDiv')
@@ -295,25 +373,25 @@ function DatabaseTable() {
     };
 
     const [objectEntry, setObjectEntry] = useState("")
-    const togglePopupEdit = (id, companyType, companyName, officeName, projectName, cost, dateOrdered, dateDelivered) => {
+    const togglePopupEdit = (id, modeOfProcurement, companyName, officeName, projectName, cost, dateOrdered, dateDelivered, fixedaddPdCost, requestNumber, deliveredNumber) => {
         setPopupVisible(!isPopupVisible);
         setEntryType("Edit");
         setEditId(id)
         const newProjectEntry = new projectEntry(
-            id, companyType, 
+            id, modeOfProcurement, 
             companyName, officeName, 
             projectName, cost, 
-            dateOrdered.toLocaleDateString("en-CA"), dateDelivered.toLocaleDateString("en-CA"))
+            dateOrdered.toLocaleDateString("en-CA"), dateDelivered.toLocaleDateString("en-CA"), fixedaddPdCost, requestNumber, deliveredNumber)
         setObjectEntry(newProjectEntry)
     }
 
-    const companyTypeNotifFilter = () => {
+    const modeOfProcurementNotifFilter = () => {
         const closeMain = document.getElementById('comType')
         const closeDiv = document.getElementById('comTypeDiv')
         closeMain.innerText = ' '
         closeDiv.className +=(' hidden')
         setFilteredData(data);
-        setResetCompanyType('inactive')
+        setResetModeOfProcurement('inactive')
     }
 
     const projectNotifFilter = () => {
@@ -361,16 +439,18 @@ function DatabaseTable() {
     }
 
     class projectEntry {
-        constructor(PN, companyType, companyName, officeName, projectName, cost, dateOrdered, dateDelivered) {
+        constructor(PN, modeOfProcurement, companyName, officeName, projectName, cost, dateOrdered, dateDelivered, fixedaddPdCost, addRequestNumber, addDeliveredNumber) {
             this.PN = PN;
-            this.companyType = companyType;
+            this.modeOfProcurement = modeOfProcurement;
             this.companyName = companyName;
             this.officeName = officeName;
             this.projectName = projectName;
             this.cost = cost;
             this.dateDelivered = dateDelivered;
             this.dateOrdered = dateOrdered;
-
+            this.pdCost = fixedaddPdCost;
+            this.dateDeliveredNum = addDeliveredNumber;
+            this.dateOrderedNum = addRequestNumber;
         }
     } 
     
@@ -385,7 +465,7 @@ function DatabaseTable() {
                 <div className='flex flex-row space-x-5 overflow-x-auto w-8/12 '>
                     <div id='comTypeDiv' className='flex flex-row hidden shadow-custom-shadow rounded-lg bg-white h-11 mb-4 w-80 min-w-40 items-center justify-between align-middle'>
                         <label id='comType' className='text-md mx-auto text-darkest'></label>
-                        <button id='comTypeButton' className='text-xl mr-5 text-dark' value ='active' onClick={companyTypeNotifFilter}>x</button>
+                        <button id='comTypeButton' className='text-xl mr-5 text-dark' value ='active' onClick={modeOfProcurementNotifFilter}>x</button>
                     </div>
 
                     <div id='projectNotifDiv' className='flex flex-row hidden shadow-custom-shadow rounded-lg bg-white h-11 mb-4 w-80 min-w-40 items-center justify-between align-middle'>
@@ -428,38 +508,77 @@ function DatabaseTable() {
             <div className="overflow-x-auto rounded-lg border border-darkest">
                 <table className="table-auto border-collapse border border-dark w-full">
                     <thead className="sticky top-0 bg-gray-200 bg-darkest text-lightest mt-20">
-                        <tr className="">
-                            {isEditVisible &&
-                           
-                            <th className="border border-dark px-4 py-2"><button className="w-full h-full hover:underline">Edit</button></th> }
-                            <th className="border border-dark px-4 py-2"><button className="w-full h-full hover:underline" onClick={() => sortData("PN")}>PN</button></th>
-                            <th className="border border-dark px-4 py-2"><button className="w-full h-full hover:underline"onClick={() => sortData("companyType")}>Company Type</button></th>
-                            <th className="border border-dark px-4 py-2"><button className="w-full h-full hover:underline"onClick={() => sortData("companyName")}>Company Name</button></th>
-                            <th className="border border-dark px-4 py-2"><button className="w-full h-full hover:underline"onClick={() => sortData("officeName")}>Office Name</button></th>
-                            <th className="border border-dark px-4 py-2"><button className="w-full h-full hover:underline"onClick={() => sortData("projectName")}>Project Name</button></th>
-                            <th className="border border-dark px-4 py-2"><button className="w-full h-full hover:underline"onClick={() => sortData("cost")}>Cost</button></th>
-                            <th className="border border-dark px-4 py-2"><button className="w-full h-full hover:underline"onClick={() => sortData("dateOrdered")}>Product Ordered</button></th>
-                            <th className="border border-dark px-4 py-2"><button className="w-full h-full hover:underline"onClick={() => sortData("dateDelivered")}>Product Delivered</button></th>
+                        <tr>
+                            {isEditVisible && (
+                            <th className="border border-dark px-4 py-2" rowSpan="2">
+                                <button className="w-full h-full hover:underline">Edit</button>
+                            </th>
+                            )}
+                            <th className="border border-dark px-4 py-2" rowSpan="2">
+                            <button className="w-full h-full hover:underline" onClick={() => sortData("PN")}>PN</button>
+                            </th>
+                            <th className="border border-dark px-4 py-2" rowSpan="2">
+                            <button className="w-full h-full hover:underline" onClick={() => sortData("projectName")}>Project Name</button>
+                            </th>
+                            <th className="border border-dark px-4 py-2" rowSpan="2">
+                            <button className="w-full h-full hover:underline" onClick={() => sortData("companyName")}>Agency</button>
+                            </th>
+                            <th className="border border-dark px-4 py-2" rowSpan="2">
+                            <button className="w-full h-full hover:underline" onClick={() => sortData("officeName")}>Department</button>
+                            </th>
+                            <th className="border border-dark px-4 py-2" rowSpan="2">
+                            <button className="w-full h-full hover:underline" onClick={() => sortData("modeOfProcurement")}>Mode of Procurement</button>
+                            </th>
+                            <th className="border border-dark px-4 py-2" colSpan="3">Project Request</th>
+                            <th className="border border-dark px-4 py-2" colSpan="3">Project Delivered</th>
+                            
+                        </tr>
+                        <tr>
+                            <th className="border border-dark px-4 py-2">
+                            <button className="w-full h-full hover:underline" onClick={() => sortData("cost")}>Date</button>
+                            </th>
+                            <th className="border border-dark px-4 py-2">
+                            <button className="w-full h-full hover:underline" onClick={() => sortData("dateOrdered")}>Cost</button>
+                            </th>
+                            <th className="border border-dark px-4 py-2">
+                                <button className="w-full h-full hover:underline" onClick={() => sortData("cost")}>PR#</button>
+                            </th>
+
+
+                            <th className="border border-dark px-4 py-2">
+                            <button className="w-full h-full hover:underline" onClick={() => sortData("dateDelivered")}>Date</button>
+                            </th>
+                            <th className="border border-dark px-4 py-2">
+                            <button className="w-full h-full hover:underline" onClick={() => sortData("pdCost")}>Cost</button>
+                            </th>
+                            <th className="border border-dark px-4 py-2">
+                                <button className="w-full h-full hover:underline" onClick={() => sortData("cost")}>PD#</button>
+                            </th>
                         </tr>
                     </thead>
+
                     <tbody>
                     {filteredData.map((item) => (
                         <tr key={item.PN} className="hover:bg-dark hover:text-white hover:shadow-custom-shadow">
                             
                             {isEditVisible &&
-                            <td id={item.PN} onClick={() => togglePopupEdit(item.PN, item.companyType, item.companyName, item.officeName, item.projectName, item.cost, item.dateOrdered, item.dateDelivered)} className="border bg-light text-darkest text-center border-darkest px-4 py-2 hover:bg-lightest hover:text-darkest hover:font-bold hover:shadow-custom-shadow hover:cursor-pointer">Edit</td>}
+                            <td id={item.PN} onClick={() => togglePopupEdit(item.PN, item.modeOfProcurement, item.companyName, item.officeName, item.projectName, item.cost, item.dateOrdered, item.dateDelivered, item.pdCost, item.dateOrderedNum, item.dateDeliveredNum)} className="border bg-light text-darkest text-center border-darkest px-4 py-2 hover:bg-lightest hover:text-darkest hover:font-bold hover:shadow-custom-shadow hover:cursor-pointer">Edit</td>}
                             <td className="border border-darkest px-4 py-2">{item.PN}</td>
-                            <td className="border border-darkest px-4 py-2">{item.companyType}</td>
+                            <td className="border border-darkest px-4 py-2">{item.projectName}</td>
                             <td className="border border-darkest px-4 py-2">{item.companyName}</td>
                             <td className="border border-darkest px-4 py-2">{item.officeName}</td>
-                            <td className="border border-darkest px-4 py-2">{item.projectName}</td>
-                            <td className="border border-darkest px-4 py-2">₱{item.cost}</td>
+                            <td className="border border-darkest px-4 py-2">{item.modeOfProcurement}</td>
                             <td className="border border-darkest px-4 py-2">
                                 {item.dateOrdered.toLocaleDateString("en-US")}
                             </td>
+                            <td className="border border-darkest px-4 py-2">₱{item.cost}</td>
+                            <td className="border border-darkest px-4 py-2">{item.dateOrderedNum}</td>
+                            
                             <td className="border border-darkest px-4 py-2">
                                 {item.dateDelivered.toLocaleDateString("en-US")}
                             </td>
+                            <td className="border border-darkest px-4 py-2">₱{item.pdCost}</td>
+                            <td className="border border-darkest px-4 py-2">{item.dateDeliveredNum}</td>
                         </tr>
                     ))}
                     </tbody>
