@@ -26,31 +26,6 @@ for server side:
 npm i express pg cors
 
 
-this application uses the pern stack or otherwise known as
+this application uses the tech stacks:
 
-postgresql, expressjs, reactjs, and nodejs with electron as its packaging unit for creating an application.
-
-
-Also add this in package.json to allow building application:
-
-  "build": {
-    "appId": "com.myapp.id",
-    "productName": "MyElectronApp",
-    "directories": {
-      "output": "dist"
-    },
-    "files": [
-    "build/**/*",  
-    "public/electron.js",
-    "public/preload.js"
-    ],
-    "win": {
-      "icon": "public/icon.ico" 
-    },
-    "mac": {
-      "icon": "public/icon.icns"
-    },
-    "linux": {
-      "icon": "public/icon.png"
-    }
-  }
+SQLite, expressjs, reactjs, and nodejs with electron as its packaging unit for creating an application.
